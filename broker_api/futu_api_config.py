@@ -8,5 +8,5 @@ for dir_name in dir_names:
         break
 
 executable_path = os.path.join(curr_dir,dir_name,"FutuOpenD")
-account = "233622960"
-password = "Cjin@142857"
+account = "enter your own account number"
+password = "enter your own account password"
