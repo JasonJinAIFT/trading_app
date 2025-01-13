@@ -1,0 +1,81 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h1><a href="/">Stocks</a> <i class="angle double right icon"></i> {{sec_name}} ({{sec_code}})</h1>
+    <!-- TradingView Widget BEGIN -->
+    <div class="tradingview-widget-container" style="height:100%;width:100%">
+        <div class="tradingview-widget-container__widget" style="height:calc(100% - 32px);width:100%"></div>
+        <div class="tradingview-widget-copyright"><a href="https://www.tradingview.com/" rel="noopener nofollow" target="_blank"><span class="blue-text">Track all markets on TradingView</span></a></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+            {
+            "autosize": true,
+            "symbol": "{{ exchange }}:{{ symbol }}",
+            "interval": "D",
+            "timezone": "Asia/Hong_Kong",
+            "theme": "light",
+            "style": "1",
+            "locale": "en",
+            "allow_symbol_change": true,
+            "calendar": false,
+            "support_host": "https://www.tradingview.com"
+        }
+        </script>
+    </div>
+    <!-- TradingView Widget END -->
+
+    <!-- Table to display available strategies BEGIN -->
+    <h2>Strategies</h2>
+    <table class="ui celled table">
+        <thead>
+            <tr>
+                <th>Strategy ID</th>
+                <th>Strategy Name</th>
+                <th>Strategy Description</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for strategy in strategies %}
+            <tr>
+                {% for col in strategy %}
+                    <td>{{col}}</td>
+                {% endfor %}
+                <td class="selectable">
+                    <form action="/apply_strategy" method="post" style="margin-left: 5px; margin-top: 15px;">
+                        <button type="submit" class="ui button">Apply</button>
+                        <input type="text" name= "stock_id" value="{{stock_id}}" hidden>
+                        <input type="text" name= "strat_id" value="{{strategy['id']}}" hidden>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- Table to display available strategies END -->
+
+    <h2>Prices</h2>
+    <table class="ui selectable celled table">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Open</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Close</th>
+                <th>Volume</th>
+                <th>Turnover</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+            <tr>
+                {% for col in row %}
+                    <td>{{col}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

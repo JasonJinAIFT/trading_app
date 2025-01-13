@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h1>Stocks</h1>
+
+    <!-- new form -->
+    <div class="ui form">
+        <form method="get"> <!-- 添加method="get"，明确表单提交方法为GET，与旧表单功能对应 -->
+            <div class="field">
+                <label>Filter</label>
+                <select class="ui search dropdown" name="filter">
+                    <option value="">All Stocks</option>
+                    <option value="new_closing_high">New Closing Highs</option>
+                    <option value="new_closing_low">New Closing Lows</option>
+                </select>
+                <input type="submit" class="ui button" value="Submit" style="margin-top: 10px;">
+                <input type="submit" class="ui button" value="Reset" style="margin-top: 10px;">
+            </div>
+        </form>
+    </div>
+
+
+
+    <table class="ui selectable celled table">
+        <thead>
+            <tr>
+                <th>Security Code</th>
+                <th>Security Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{d[0]}}</td>
+                <td><a href="/stock/{{d[1]}}">{{d[1]}}</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}

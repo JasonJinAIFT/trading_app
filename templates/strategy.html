@@ -1,0 +1,39 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <h1>
+        <a href="/">Stocks</a>
+        <i class="angle double right icon"></i>
+        {{strategy.name}}
+    </h1>
+
+    <div class="ui message" bis_skin_checked="1" style="margin-top: 50px;">
+        <div class="header" bis_skin_checked="1">
+          Strategy Description
+        </div>
+        <p>{{strategy.description}}</p>
+      </div>
+
+
+
+    <h2>Stocks applied</h2>
+    <table class="ui basic table">
+        <thead>
+            <tr>
+                <th>Security Code</th>
+                <th>Security Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for stock in stocks_in_strategy %}
+            <tr>
+                {% for col in stock %}
+                    <td>{{col}}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+{% endblock %}
