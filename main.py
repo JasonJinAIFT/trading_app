@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, Form
 from fastapi.templating import Jinja2Templates
 from fastapi.responses import RedirectResponse
-from db_crud import connect_to_db,fetch_from_table,fetch_with_query,insert_into_table
+from database.db_crud import connect_to_db,fetch_from_table,fetch_with_query,insert_into_table
 import pandas as pd
 from broker_api import utils
 import datetime as dt

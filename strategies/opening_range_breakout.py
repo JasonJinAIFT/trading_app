@@ -4,17 +4,16 @@ import sys
 import os
 import datetime as dt
 
-curr_dir = os.path.dirname(__file__)
-project_root = os.path.dirname(curr_dir)
-sys.path.append(project_root)
+# curr_dir = os.path.dirname(__file__)
+# project_root = os.path.dirname(curr_dir)
+# sys.path.append(project_root)
 
-from broker_api import utils
+from ..broker_api import utils
 import datetime as dt
-from db_crud import connect_to_db,fetch_with_query
-from populate_prices_table import populate_intraday_prices_table_single_stock
+from ..database import db_crud,populate_prices_table
+# from populate_prices_table import populate_intraday_prices_table_single_stock
 
 from strategies.portfolio_manager import PortfolioManager,Order
-
 
 def get_stock_intraday_data(conn, sec, interval):
     """
@@ -47,7 +46,7 @@ def get_stock_intraday_data(conn, sec, interval):
     """
 
     # 尝试从sqlite中获取当日分钟线数据
-    fetch_res = fetch_with_query(conn,query)
+    fetch_res = db_crud.fetch_with_query(conn,query)
     if not fetch_res['status'] == 200:
         print(fetch_res['message'])
         return
@@ -70,7 +69,7 @@ def get_stock_intraday_data(conn, sec, interval):
 
 
 def main():
-    conn = connect_to_db()
+    conn = db_crud.connect_to_db()
     conn.row_factory = sqlite3.Row
 
     # 拿到opening_range_breakout的strategy_id
@@ -78,7 +77,7 @@ def main():
     SELECT id from strategy where name = 'opening_range_breakout'
     """
 
-    fetch_res = fetch_with_query(conn,query)
+    fetch_res = db_crud.fetch_with_query(conn,query)
     if not fetch_res['status'] == 200:
         print(fetch_res['message'])
         return
@@ -93,7 +92,7 @@ def main():
     WHERE strategy_id = {strategy_id}
     """
 
-    fetch_res = fetch_with_query(conn,query)
+    fetch_res = db_crud.fetch_with_query(conn,query)
     if not fetch_res['status'] == 200:
         print(fetch_res['message'])
         return
